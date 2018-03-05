@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>IFE JavaScript Task 01</title>
+</head>
+
+<body>
+
+  <label>请输入北京今天空气质量：
+    <input id="aqi-input" type="text">
+  </label>
+  <button id="button">确认填写</button>
+
+  <div>您输入的值是：
+    <span id="aqi-display">尚无录入</span>
+  </div>
+
+  <script type="text/javascript">
+    (function () {
+      /*
+      在注释下方写下代码
+      给按钮button绑定一个点击事件
+      在事件处理函数中
+      获取aqi-input输入的值，并显示在aqi-display中
+      */
+      // 小白版
+      // var apiInput = document.getElementById('aqi-input')
+      // var button = document.getElementById('button')
+      // var aqiDisplay = document.getElementById('aqi-display')
+      // button.addEventListener('click', function (events) {
+      //   aqiDisplay.innerText = apiInput.value
+      // }, false)
+
+      // 改良版
+      var $ = function (id) {
+        return document.getElementById(id)
+      }
+      var handler = function () {
+        var num = parseInt($('aqi-input').value)
+        if (!isNaN(num) && num >= 0 && num <= 500) {
+          $("aqi-display").innerHTML = $("aqi-input").value;
+        } else {
+          $("aqi-display").innerHTML = "请输入范围为0-500的效数字";
+        }
+      }
+      $("button").addEventListener("click", handler, false);
+
+      // 去除重复代码 ，使用标准的 innerHTML ,添加了数据类型和范围验证
+    })();
+  </script>
+</body>
+
+</html>

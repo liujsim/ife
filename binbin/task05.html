@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>IFE JavaScript Task 04</title>
+  <style>
+    dl li {
+      display: inline-block;
+      padding: 5px 10px;
+      color: #fff;
+      background-color: red;
+      text-align: center;
+      vertical-align: bottom;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <input type="text" id="input">
+    <button id="leftIn">左侧入</button>
+    <button id="leftOut">左侧出</button>
+    <button id="rightOut">右侧出</button>
+    <button id="rightIn">右侧入</button>
+    <button id="sort">排序</button>
+    <dl id="list">
+        <li data-height="100" style="height: 100px;"></li>
+        <li data-height="50" style="height: 50px;"></li>
+        <li data-height="10" style="height: 10px;"></li>
+    </dl>
+  </div>
+  <script>
+    var $ = function (id) {
+      return document.getElementById(id);
+    }
+    // 事件处理封装
+    var eventUtil = {
+      addHandler(elem, type, listener) {
+        if (elem.addEventListener) {
+          elem.addEventListener(type, listener, false)
+        } else if (elem.attachEvent) {
+          elem.attachEvent('on' + type, listener)
+        } else {
+          // 在这里由于.与'on'字符串不能链接，只能用 []
+          elem['on' + type] = listener
+        }
+      },
+      getTarget(event) {
+        return event.target ? event.target : event.srcElement
+      }
+    }
+    function checkChildren(params) {
+      if ($('list').children.length > 60) {
+        return false
+      } else {
+        return true
+      }
+    }
+    function check(num) {
+      if(!checkChildren()) {
+        alert("不能超过60 个！");
+        return false
+      }
+      var reg = /^[-+]?\d*$/;
+      if (num === '') {
+        alert("输入不能为空！");
+        return false;
+      } else if (!reg.test(num)) {
+        alert("只能输入整数！");
+        return false;
+      } else if (num < 10 || num >100){
+        alert("只能输入10-100的整数！");
+      } else {
+        return true
+      }
+    }
+    // 交换位置: 直接改变属性
+    function swap() {
+       var arr = Array.from($('list').children)
+
+    }
+    function sort() {
+      var arr = Array.from($('list').children)
+      var sortArr = []
+      arr.forEach(function (element) {
+        sortArr.push(element.getAttribute('data-height'))
+      })
+      // TODO Bubble Sort
+    }
+    function leftIn() {
+      var list = $('list')
+      var num = $('input').value
+      if (check(num)) {
+        var html = document.createElement("li")
+        // html.innerHTML = num
+        // var html = '<li>' + num +'</li>' // insertBefore 参数为 node 节点
+        list.insertBefore(html, list.firstElementChild)
+        html.style.height = num + 'px'
+        html.setAttribute('data-height', num)
+        $('input').value = ''
+      }
+    }
+    function leftOut() {
+      var list = $('list')
+      if (list.children.length !== 0) {
+        list.removeChild(list.firstElementChild)
+      } else {
+        alert('请添加数据')
+      }
+    }
+    function rightOut() {
+      var list = $('list')
+      if (list.children.length !== 0) {
+        list.removeChild(list.lastElementChild)
+      } else {
+        alert('请添加数据')
+      }
+    }
+    function rightIn() {
+      var list = $('list')
+      var num = $('input').value
+      if (check(num)) {
+        var html = document.createElement("li")
+        list.insertBefore(html, list.lastChild)
+        html.style.height = num + 'px'
+        html.setAttribute('data-height', num)
+        $('input').value = ''
+      }
+    }
+    function init() {
+      var list = $('list')
+      var leftInButton = $('leftIn')
+      var leftOutButton = $('leftOut')
+      var rightOutButton = $('rightOut')
+      var rightInButton = $('rightIn')
+      eventUtil.addHandler(leftInButton, 'click', leftIn);
+      eventUtil.addHandler(leftOutButton, 'click', leftOut);
+      eventUtil.addHandler(rightOutButton, 'click', rightOut);
+      eventUtil.addHandler(rightInButton, 'click', rightIn);
+    }
+    init()
+  // lastChild 和 lastElementChild 区别
+  // lastElementChild 去除了空白节点、文本节点（纯文本）
+  </script>
+</body>
+
+</html>
